@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CMS.View.CreateAccountPage"
+             xmlns:vm="clr-namespace:CMS.ViewModel"
+             Title="Create Account"
+             x:DataType="vm:CreateAccountViewModel"
+             BackgroundColor="Green">
+    <Grid RowDefinitions="*,*">
+        <Image HeightRequest="150" Source="logo.png" />
+
+        <Border
+            Grid.Row="1"
+            Margin="0,0,0,-2"
+            BackgroundColor="White">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20,20,0,0" />
+            </Border.StrokeShape>
+
+            <VerticalStackLayout
+                Padding="20"
+                Spacing="10"
+                VerticalOptions="Center">
+
+                <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                    <Label Style="{StaticResource MaterialIcon}"
+                           Text="{StaticResource ic_Person}"
+                           FontSize="30"
+                           VerticalTextAlignment="Center"
+                           TextColor="#D95716"/>
+
+                    <Entry FontSize="Medium" 
+                           Placeholder="Name"
+                           SemanticProperties.HeadingLevel="Level1"
+                           SemanticProperties.Description="entry"
+                           Text="{Binding Name}"
+                           HorizontalOptions="FillAndExpand"
+                           TextColor="Black" />
+
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                    <Label Style="{StaticResource MaterialIcon}"
+                           Text="{StaticResource ic_Email}"
+                           FontSize="30"
+                           VerticalTextAlignment="Center"
+                           TextColor="#D95716"/>
+                    <Entry FontSize="Medium"
+                           Keyboard="Email"
+                           Placeholder="E-mail"
+                           Text="{Binding Email}"
+                           HorizontalOptions="FillAndExpand"
+                           TextColor="Black" />
+                </StackLayout>
+                
+                <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                    <Label Style="{StaticResource MaterialIcon}"
+                           Text="{StaticResource ic_Vpn_key}"
+                           FontSize="30"
+                           VerticalTextAlignment="Center"
+                           TextColor="#D95716"/>
+
+                    <Entry FontSize="Medium"
+                           IsPassword="True"
+                           Placeholder="Password"
+                           Text="{Binding Password}"
+                           HorizontalOptions="FillAndExpand"
+                           TextColor="Black" />
+                </StackLayout>
+
+                <Button
+                    BackgroundColor="#D95716"
+                    Command="{Binding SaveCommand}"
+                    CornerRadius="20"
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    Text="SAVE"
+                    TextColor="White" />
+
+                <Button
+                    BackgroundColor="#D95716"
+                    Command="{Binding CancelCommand}"
+                    CornerRadius="20"
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    Text="CANCEL"
+                    TextColor="White" />
+
+            </VerticalStackLayout>
+
+        </Border>
+
+    </Grid>
+</ContentPage>

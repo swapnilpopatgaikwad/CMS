@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage  xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              x:Class="CMS.View.DashboardPage"
+              xmlns:vm="clr-namespace:CMS.ViewModel"
+              x:DataType="vm:DashboardViewModel"
+              Shell.TabBarTitleColor="Green"
+              Title="Dashboard"
+              Shell.TitleColor="White"
+              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+              BackgroundColor="WhiteSmoke">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding AppearingCommand}"
+                                        EventName="Appearing" />
+    </ContentPage.Behaviors>
+    <Grid RowSpacing="15" Padding="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackLayout Grid.Row="0"
+                     Spacing="10">
+            <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Vertical"
+                             HorizontalOptions="FillAndExpand">
+                    <Label Text="Hello,"
+                           HorizontalOptions="StartAndExpand"
+                           FontSize="18" />
+                    <Label HorizontalOptions="StartAndExpand"
+                           FontSize="20"
+                           FontAttributes="Bold">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Dr." />
+                                <Span Text=" " />
+                                <Span Text="{Binding LoggedInUserName}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+                <StackLayout HorizontalOptions="End">
+                    <Grid Margin="0">
+                        <Frame BorderColor="White"
+                               CornerRadius="30"
+                               Padding="0"
+                               HasShadow="True">
+                            <Label Text="{StaticResource ic_Person}"
+                                   FontFamily="MaterialIcon"
+                                   FontSize="40"
+                                   Padding="10"
+                                   TextColor="Green"
+                                   BackgroundColor="LightGray"
+                                   FontAttributes="Bold" />
+
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding UserProfileCommand}"
+                                                      NumberOfTapsRequired="1" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+
+                        <ActivityIndicator HorizontalOptions="Center"
+                                           IsRunning="{Binding UserProfileCommand.IsRunning}"
+                                           IsVisible="{Binding UserProfileCommand.IsRunning}"
+                                           VerticalOptions="Center"
+                                           Color="White" />
+                    </Grid>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal"
+                         Spacing="5"
+                         HorizontalOptions="FillAndExpand">
+                <Grid Margin="0"
+                      HorizontalOptions="FillAndExpand">
+                    <Button Text="ADD PATIENT"
+                            BackgroundColor="Green"
+                            Command="{Binding AddPatientCommand}"
+                            HorizontalOptions="FillAndExpand"
+                            FontAttributes="Bold">
+                        <Button.ImageSource>
+                            <FontImageSource Glyph="{StaticResource ic_Add}"
+                                             FontAutoScalingEnabled="True"
+                                             Color="White"
+                                             FontFamily="MaterialIcon" />
+                        </Button.ImageSource>
+                    </Button>
+
+                    <ActivityIndicator HorizontalOptions="Center"
+                                       IsRunning="{Binding AddPatientCommand.IsRunning}"
+                                       IsVisible="{Binding AddPatientCommand.IsRunning}"
+                                       VerticalOptions="Center"
+                                       Color="White" />
+
+                </Grid>
+
+                <Grid Margin="0">
+
+                    <Button Text="ADD TREATMENT"
+                            BackgroundColor="Green"
+                            Command="{Binding AddTreatmentCommand}"
+                            HorizontalOptions="FillAndExpand"
+                            FontAttributes="Bold">
+                        <Button.ImageSource>
+                            <FontImageSource Glyph="{StaticResource ic_Add}"
+                                             FontAutoScalingEnabled="True"
+                                             Color="White"
+                                             FontFamily="MaterialIcon" />
+                        </Button.ImageSource>
+                    </Button>
+
+                    <ActivityIndicator HorizontalOptions="Center"
+                                       IsRunning="{Binding AddTreatmentCommand.IsRunning}"
+                                       IsVisible="{Binding AddTreatmentCommand.IsRunning}"
+                                       VerticalOptions="Center"
+                                       Color="White" />
+                </Grid>
+
+            </StackLayout>
+
+        </StackLayout>
+        <ScrollView  Grid.Row="1"
+                     VerticalScrollBarVisibility="Never">
+            <StackLayout Orientation="Vertical"
+                         Spacing="10">
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="FillAndExpand"
+                             Spacing="10">
+                    <Frame HeightRequest="150"
+                           BorderColor="Gray"
+                           HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Vertical"
+                                     Spacing="10">
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="4">
+                                <BoxView HeightRequest="18"
+                                         WidthRequest="8"
+                                         BackgroundColor="Green" />
+                                <Label Text="Patient"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="StartAndExpand" />
+                                <Label Text="{StaticResource ic_More_vert}"
+                                       FontAttributes="Bold"
+                                       FontSize="26"
+                                       TextColor="Green"
+                                       FontFamily="MaterialIcon"
+                                       HorizontalOptions="End" />
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="4"
+                                         HorizontalOptions="FillAndExpand">
+                                <BoxView BackgroundColor="GreenYellow"
+                                         HeightRequest="10"
+                                         WidthRequest="10" />
+                                <Label Text="NEW"
+                                       FontSize="16"
+                                       HorizontalOptions="FillAndExpand"
+                                       TextColor="Black" />
+                                <Label Text="{Binding TotalNewPatient}"
+                                       FontSize="16"
+                                       HorizontalOptions="End" />
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="4"
+                                         HorizontalOptions="FillAndExpand">
+                                <BoxView BackgroundColor="Green"
+                                         HeightRequest="10"
+                                         WidthRequest="10" />
+                                <Label Text="Total"
+                                       FontSize="16"
+                                       HorizontalOptions="FillAndExpand"
+                                       TextColor="Black" />
+                                <Label Text="{Binding TotalPatient}"
+                                       FontSize="16"
+                                       HorizontalOptions="End" />
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                    <Frame HeightRequest="150"
+                           BorderColor="Gray"
+                           HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Vertical"
+                                     Spacing="10"
+                                     Padding="0"
+                                     VerticalOptions="FillAndExpand">
+                            <StackLayout Orientation="Horizontal"
+                                         VerticalOptions="Start"
+                                         Spacing="4">
+                                <BoxView HeightRequest="18"
+                                         WidthRequest="8"
+                                         BackgroundColor="Green" />
+                                <Label Text="Amount"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="StartAndExpand" />
+                                <Label Text="{StaticResource ic_More_vert}"
+                                       FontAttributes="Bold"
+                                       FontSize="26"
+                                       TextColor="Green"
+                                       FontFamily="MaterialIcon"
+                                       HorizontalOptions="End" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="4"
+                                         HorizontalOptions="FillAndExpand">
+                                <BoxView BackgroundColor="GreenYellow"
+                                         HeightRequest="10"
+                                         WidthRequest="10" />
+                                <Label Text="Paid"
+                                       FontSize="16"
+                                       HorizontalOptions="FillAndExpand"
+                                       TextColor="Black" />
+                                <Label Text="{Binding TotalPaidAmount}"
+                                       FontSize="16"
+                                       HorizontalOptions="End" />
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="4"
+                                         HorizontalOptions="FillAndExpand">
+                                <BoxView BackgroundColor="Green"
+                                         HeightRequest="10"
+                                         WidthRequest="10" />
+                                <Label Text="{Binding TotalUnPaidAmount}"
+                                       FontSize="16"
+                                       HorizontalOptions="FillAndExpand"
+                                       TextColor="Black" />
+                                <Label Text="1000"
+                                       FontSize="16"
+                                       HorizontalOptions="End" />
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+
+                </StackLayout>
+                <StackLayout Orientation="Vertical">
+                    <StackLayout Orientation="Horizontal"
+                                 HorizontalOptions="FillAndExpand">
+                        <Label Text="Recent Patients"
+                               TextColor="Black"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalOptions="StartAndExpand" />
+                        <Label Text="Show all"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalOptions="End" />
+                    </StackLayout>
+
+                </StackLayout>
+
+
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

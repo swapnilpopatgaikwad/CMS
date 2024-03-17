@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CMS.View.AddEditPatientPage"
+             xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Title="Add Patient"
+             Shell.TitleColor="White">
+    <ContentPage.Behaviors>
+        <mct:EventToCommandBehavior Command="{Binding AppearingCommand}"
+                                    EventName="Appearing" />
+        <mct:EventToCommandBehavior Command="{Binding DisappearingCommand}"
+                                    EventName="Disappearing" />
+    </ContentPage.Behaviors>
+
+    <ScrollView>
+
+
+        <Frame BackgroundColor="White"
+               CornerRadius="12"
+               HorizontalOptions="FillAndExpand"
+               VerticalOptions="FillAndExpand"
+               Padding="5"
+               Margin="10">
+            <VerticalStackLayout Margin="5"
+                                 Spacing="5"
+                                 BackgroundColor="White">
+
+                <Label Text="Patient Name"
+                       TextColor="Black"
+                       FontSize="Medium" />
+
+                <Entry x:Name="PatientNameEntry"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center"
+                       Placeholder="Patient Name"
+                       Text="{Binding PatientName, Mode=TwoWay}" />
+
+
+                <Label Text="Contact Number"
+                       TextColor="Black"
+                       FontSize="Medium" />
+
+                <Entry x:Name="ContactEntry"
+                       Keyboard="Telephone"
+                       MaxLength="10"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center"
+                       Placeholder="Contact Number"
+                       Text="{Binding ContactNumber}" />
+
+                <Label Text="Email Address"
+                       TextColor="Black"
+                       FontSize="Medium" />
+
+                <Entry x:Name="EmailAddressEntry"
+                       Keyboard="Email"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center"
+                       Placeholder="Email Address"
+                       Text="{Binding EmailAddress}" />
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           Text="Age"
+                           TextColor="Black"
+                           FontSize="Medium" />
+
+                    <Entry Grid.Row="1"
+                           Grid.Column="0"
+                           x:Name="AgeEntry"
+                           Keyboard="Default"
+                           MaxLength="2"
+                           HorizontalOptions="FillAndExpand"
+                           VerticalOptions="Center"
+                           Placeholder="Age"
+                           Text="{Binding Age}" />
+
+                    <Label Grid.Row="0"
+                           Grid.Column="1"
+                           Text="Gender"
+                           TextColor="Black"
+                           FontSize="Medium" />
+
+                    <Picker Grid.Row="1"
+                            Grid.Column="1"
+                            x:Name="AgePicker"
+                            Title="Select Age"
+                            SelectedItem="{Binding Gender}">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Male</x:String>
+                                <x:String>Female</x:String>
+                                <x:String>Other</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </Grid>
+
+
+                <Label Text="Patient Address"
+                       TextColor="Black"
+                       FontSize="Medium" />
+
+                <Editor x:Name="AddressEditor"
+                        Placeholder="Address"
+                        Text="{Binding Address}"
+                        HeightRequest="150" />
+
+
+                <Label Text="Country"
+                       TextColor="Black"
+                       FontSize="Medium" />
+
+                <Entry x:Name="CountryEntry"
+                       Keyboard="Default"
+                       MaxLength="10"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center"
+                       Placeholder="Country"
+                       Text="{Binding Country}" />
+
+                <Label Text="State"
+                       TextColor="Black"
+                       FontSize="Medium" />
+
+                <Picker x:Name="StatePicker"
+                        Title="Select State"
+                        SelectedItem="{Binding State}">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>MH</x:String>
+                            <x:String>MP</x:String>
+                            <x:String>Other</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+
+
+                <Label Text="City"
+                       TextColor="Black"
+                       FontSize="Medium" />
+
+                <Entry x:Name="CityEntry"
+                       Keyboard="Default"
+                       MaxLength="10"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center"
+                       Placeholder="City"
+                       Text="{Binding City}" />
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           Text="Covid Vaccinated"
+                           TextColor="Black"
+                           FontSize="Medium" />
+
+                    <HorizontalStackLayout Grid.Row="1"
+                                           Grid.Column="0">
+                        <RadioButton Content="Yes"
+                                     IsChecked="{Binding IsCovidVaccinated, Mode=TwoWay}" />
+                        <RadioButton Content="No"
+                                     IsChecked="{Binding IsNotCovidVaccinated, Mode=TwoWay}" />
+                    </HorizontalStackLayout>
+
+
+                    <Label Grid.Row="0"
+                           Grid.Column="1"
+                           Text="Diabeteas"
+                           TextColor="Black"
+                           FontSize="Medium" />
+
+                    <HorizontalStackLayout Grid.Row="1"
+                                           Grid.Column="1">
+                        <RadioButton Content="Yes"
+                                     IsChecked="{Binding IsDiabeatic, Mode=TwoWay}" />
+                        <RadioButton Content="No"
+                                     IsChecked="{Binding IsNonDiabeatic, Mode=TwoWay}" />
+                    </HorizontalStackLayout>
+                </Grid>
+
+
+
+                <Label Text="Allergies"
+                       TextColor="Black"
+                       FontSize="Medium" />
+
+                <Editor x:Name="editorAllergies"
+                        Placeholder="Allergies"
+                        Text="{Binding Allergies}"
+                        HeightRequest="150" />
+
+                <Label Text="Note"
+                       TextColor="Black"
+                       FontSize="Medium" />
+
+                <Editor x:Name="editor"
+                        Placeholder="Note"
+                        Text="{Binding Note}"
+                        HeightRequest="150" />
+
+
+                <Button HorizontalOptions="Fill"
+                        VerticalOptions="EndAndExpand"
+                        Text="Save"
+                        CornerRadius="12"
+                        Command="{Binding SaveCommand}" />
+
+                <!--<ActivityIndicator HorizontalOptions="CenterAndExpand"
+               VerticalOptions="CenterAndExpand"
+               BackgroundColor="Yellow"
+IsRunning="{Binding IsBusy}" Color="Blue" />-->
+
+            </VerticalStackLayout>
+
+        </Frame>
+    </ScrollView>
+</ContentPage>

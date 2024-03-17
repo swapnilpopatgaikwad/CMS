@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="CMS.View.Menu.MedicinePage"
+             xmlns:vm="clr-namespace:CMS.ViewModel"
+             xmlns:model="clr-namespace:CMS.Model"
+             x:DataType="vm:MedicineViewModel"
+             BackgroundColor="WhiteSmoke"
+             Shell.TitleColor="White"
+             Title="Medicines">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding AppearingCommand}"
+                                        EventName="Appearing" />
+    </ContentPage.Behaviors>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid Padding="10"
+              RowSpacing="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="9*" />
+            </Grid.RowDefinitions>
+
+            <StackLayout Grid.Row="0"
+                         Spacing="10"
+                         VerticalOptions="Start"
+                         Orientation="Vertical">
+                <StackLayout>
+                    <Label FontSize="22"
+                           FontAttributes="Bold">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Medicines" />
+                                <Span Text="  " />
+                                <Span Text="(" />
+                                <Span Text="{Binding TotalMedicines}" />
+                                <Span Text=")" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+                <Frame CornerRadius="20"
+                       Padding="0">
+
+                    <!--Name-->
+                    <SearchBar Placeholder="Medicine Name"
+                               CancelButtonColor="Grey"
+                               Text="{Binding SearchText}"
+                               FontSize="18">
+
+                        <SearchBar.Behaviors>
+                            <toolkit:EventToCommandBehavior Command="{Binding TextChangedCommand}"
+                                                            EventName="TextChanged" />
+                        </SearchBar.Behaviors>
+                    </SearchBar>
+                </Frame>
+            </StackLayout>
+
+            <ScrollView Grid.Row="1"
+                        VerticalScrollBarVisibility="Never"
+                        VerticalOptions="FillAndExpand">
+                <StackLayout Orientation="Vertical"
+                             VerticalOptions="FillAndExpand">
+                    <StackLayout VerticalOptions="CenterAndExpand"
+                                 HorizontalOptions="CenterAndExpand"
+                                 IsVisible="{Binding AppearingCommand.IsRunning}">
+                        <ActivityIndicator HorizontalOptions="Center"
+                                           IsRunning="{Binding AppearingCommand.IsRunning}"
+                                           IsVisible="{Binding AppearingCommand.IsRunning}"
+                                           VerticalOptions="Center"
+                                           Color="Green" />
+                        <Label Text="Loading..."
+                               TextColor="Green" />
+                    </StackLayout>
+                    <CollectionView SelectionMode="None"
+                                    IsVisible="{Binding AppearingCommand.IsRunning, Converter={StaticResource InvertedBoolConverter}}"
+                                    VerticalOptions="FillAndExpand"
+                                    ItemsSource="{Binding Medicines}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="10"
+                                               Orientation="Vertical" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:MedicineModel">
+                                <SwipeView BackgroundColor="Transparent">
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItem Text="Edit"
+                                                       BackgroundColor="WhiteSmoke"
+                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MedicineViewModel}}, Path=EditMedicineCommand}"
+                                                       CommandParameter="{Binding .}">
+                                                <SwipeItem.IconImageSource>
+                                                    <FontImageSource Glyph="{StaticResource ic_Edit}"
+                                                                     FontFamily="{StaticResource MaterialIconKey}"
+                                                                     Color="Green" />
+                                                </SwipeItem.IconImageSource>
+                                            </SwipeItem>
+                                            <SwipeItem Text="Delete"
+                                                       CommandParameter="{Binding .}"
+                                                       BackgroundColor="WhiteSmoke"
+                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MedicineViewModel}}, Path=DeleteMedicineCommand}">
+
+                                                <SwipeItem.IconImageSource>
+                                                    <FontImageSource Glyph="{StaticResource ic_Delete}"
+                                                                     FontFamily="{StaticResource MaterialIconKey}"
+                                                                     Color="Red" />
+                                                </SwipeItem.IconImageSource>
+                                            </SwipeItem>
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <Frame CornerRadius="20"
+                                           Padding="0">
+                                        <StackLayout Orientation="Vertical"
+                                                     Spacing="2"
+                                                     Padding="15,10,15,10">
+                                            <Label Text="{Binding MedicineName}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="18"
+                                                   HorizontalOptions="FillAndExpand" />
+                                            <Label Text="{Binding MedicineDescription}"
+                                                   FontSize="16"
+                                                   Margin="5,0,0,0"
+                                                   TextColor="Gray"
+                                                   HorizontalOptions="FillAndExpand" />
+                                        </StackLayout>
+                                    </Frame>
+                                </SwipeView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </ScrollView>
+
+            <StackLayout Grid.Row="1"
+                         VerticalOptions="End"
+                         BackgroundColor="Transparent"
+                         IsVisible="{Binding AppearingCommand.IsRunning, Converter={StaticResource InvertedBoolConverter}}">
+                <Grid Margin="0"
+                      Padding="0"
+                      RowSpacing="0">
+
+                    <Button Padding="15"
+                            Margin="5"
+                            CornerRadius="40"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            BackgroundColor="Green"
+                            Command="{Binding AddMedicineCommand}"
+                            VerticalOptions="End"
+                            HorizontalOptions="End">
+                        <Button.ImageSource>
+                            <FontImageSource Glyph="{StaticResource ic_Add}"
+                                             FontFamily="{StaticResource MaterialIconKey}" />
+                        </Button.ImageSource>
+
+                    </Button>
+
+                    <ActivityIndicator HorizontalOptions="End"
+                                       Margin="10"
+                                       IsRunning="{Binding AddMedicineCommand.IsRunning}"
+                                       IsVisible="{Binding AddMedicineCommand.IsRunning}"
+                                       VerticalOptions="EndAndExpand"
+                                       Color="White" />
+                </Grid>
+            </StackLayout>
+
+        </Grid>
+    </ContentPage.Content>
+
+</ContentPage>

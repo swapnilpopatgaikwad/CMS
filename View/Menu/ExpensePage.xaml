@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CMS.View.Menu.ExpensePage"
+             xmlns:controls="clr-namespace:CMS.Controls"
+             xmlns:model="clr-namespace:CMS.Model"
+             xmlns:vm="clr-namespace:CMS.ViewModel"
+             x:DataType="vm:ExpenseViewModel"
+             Shell.TitleColor="White"
+             Shell.TabBarIsVisible="False"
+             Title="Expense">
+    <ContentPage.Content>
+        <Grid Padding="10"
+              RowSpacing="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <ScrollView Grid.Row="0"
+                        VerticalScrollBarVisibility="Never"
+                        VerticalOptions="FillAndExpand">
+                <StackLayout Orientation="Vertical"
+                             VerticalOptions="FillAndExpand"
+                             Spacing="10">
+                    <StackLayout BindableLayout.ItemsSource="{Binding InsertExpenseModelList}"
+                                 Spacing="10">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:ExpenceModel">
+                                <SwipeView BackgroundColor="Transparent">
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItem Text="Delete"
+                                                       BackgroundColor="WhiteSmoke"
+                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ExpenseViewModel}}, Path=DeleteEntryCommand}"
+                                                       CommandParameter="{Binding .}">
+
+                                                <SwipeItem.IconImageSource>
+                                                    <FontImageSource Glyph="{StaticResource ic_Delete}"
+                                                                     FontFamily="{StaticResource MaterialIconKey}"
+                                                                     Color="Red" />
+                                                </SwipeItem.IconImageSource>
+                                            </SwipeItem>
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <Frame BorderColor="Gray"
+                                           Padding="5,5,5,0"
+                                           CornerRadius="10">
+                                        <StackLayout Orientation="Horizontal">
+
+                                            <StackLayout Spacing="10"
+                                                         HorizontalOptions="FillAndExpand"
+                                                         Padding="0,12,0,10">
+                                                <controls:FloatingLabelInput x:Name="EntExpenceName"
+                                                                             Text="{Binding ExpenceName,Mode=TwoWay}"
+                                                                             Keyboard="Text"
+                                                                             Title="Expence Details"
+                                                                             HorizontalOptions="FillAndExpand" />
+                                                <!--IsValid="{Binding IsExpenceNameValid,Mode=TwoWay}"-->
+
+                                                <controls:FloatingLabelInput x:Name="EntAmount"
+                                                                             Text="{Binding Amount,Mode=TwoWay}"
+                                                                             HorizontalOptions="FillAndExpand"
+                                                                             Title="Amount"
+                                                                             Keyboard="Numeric" />
+                                                <!--IsValid="{Binding IsAmountValid,Mode=TwoWay}"-->
+
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Frame>
+                                </SwipeView>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+
+                    <Button Text="Submit"
+                            FontAttributes="Bold"
+                            HorizontalOptions="FillAndExpand"
+                            Command="{Binding SubmitClickCommand}" />
+
+                </StackLayout>
+            </ScrollView>
+            <StackLayout Grid.Row="0"
+                         Grid.RowSpan="2"
+                         VerticalOptions="EndAndExpand"
+                         BackgroundColor="Transparent">
+                <Grid Margin="0"
+                      Padding="0"
+                      BackgroundColor="Transparent"
+                      RowSpacing="0">
+
+                    <Button Padding="15"
+                            Margin="5"
+                            CornerRadius="40"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            BackgroundColor="Green"
+                            Command="{Binding AddMoreCommand}"
+                            VerticalOptions="End"
+                            HorizontalOptions="End">
+                        <Button.ImageSource>
+                            <FontImageSource Glyph="{StaticResource ic_Add}"
+                                             FontFamily="{StaticResource MaterialIconKey}" />
+                        </Button.ImageSource>
+
+                    </Button>
+
+                    <ActivityIndicator HorizontalOptions="End"
+                                       Margin="10"
+                                       IsRunning="{Binding AddMoreCommand.IsRunning}"
+                                       IsVisible="{Binding AddMoreCommand.IsRunning}"
+                                       VerticalOptions="EndAndExpand"
+                                       Color="White" />
+                </Grid>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

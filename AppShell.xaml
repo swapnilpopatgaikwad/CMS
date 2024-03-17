@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell x:Class="CMS.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:CMS.View"
+       xmlns:localMenu="clr-namespace:CMS.View.Menu"
+       Shell.FlyoutBehavior="Flyout"
+       xmlns:controls="clr-namespace:CMS.Controls"
+       BackgroundColor="Green"
+       Shell.NavBarIsVisible="True"
+       FlyoutHeaderBehavior="CollapseOnScroll"
+       Shell.BackgroundColor="Green"
+       xmlns:vm="clr-namespace:CMS.ViewModel"
+       x:DataType="vm:MainViewModel"
+       Title="CMS">
+
+    <Shell.FlyoutHeader>
+        <controls:FlyoutHeader />
+    </Shell.FlyoutHeader>
+    <FlyoutItem Route="DashboardPage"
+                Title="Dashboard"
+                Shell.FlyoutBackdrop="Gray"
+                Shell.DisabledColor="Gray"
+                Shell.NavBarHasShadow="True"
+                Shell.PresentationMode="ModalAnimated"
+                Shell.NavBarIsVisible="True"
+                FlyoutItemIsVisible="True"
+                Shell.TabBarForegroundColor="Green"
+                Shell.TabBarTitleColor="Green"
+                Shell.TabBarUnselectedColor="Gray"
+                Shell.TabBarBackgroundColor="White"
+                FlyoutDisplayOptions="AsSingleItem">
+        <FlyoutItem.FlyoutIcon>
+            <FontImageSource Glyph="{StaticResource ic_Home}"
+                             FontFamily="MaterialIcon"
+                             Color="Green" />
+
+        </FlyoutItem.FlyoutIcon>
+
+        <Tab Title="Home">
+            <Tab.Icon>
+                <FontImageSource Glyph="{StaticResource ic_Home}"
+                                 FontFamily="MaterialIcon"
+                                 Color="White" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate local:DashboardPage}" />
+        </Tab>
+        <Tab Title="Patient">
+            <Tab.Icon>
+                <FontImageSource Glyph="{StaticResource ic_Person_add}"
+                                 FontFamily="MaterialIcon"
+                                 Color="White" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate local:PatientTabPage}" />
+        </Tab>
+
+        <Tab Title="Treatment">
+            <Tab.Icon>
+                <FontImageSource Glyph="{StaticResource ic_Note_alt}"
+                                 FontFamily="MaterialIcon"
+                                 Color="White" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate local:TreatmentTabPage}" />
+        </Tab>
+
+        <Tab Title="Report">
+            <Tab.Icon>
+                <FontImageSource Glyph="{StaticResource ic_Text_format}"
+                                 FontFamily="MaterialIcon"
+                                 Color="White" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate local:ReportTabPage}" />
+        </Tab>
+        <Tab Title="Appointment">
+            <Tab.Icon>
+                <FontImageSource Glyph="{StaticResource ic_Meeting_room}"
+                                 FontFamily="MaterialIcon"
+                                 Color="White" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate local:AppointmentTabPage}" />
+        </Tab>
+    </FlyoutItem>
+
+    <ShellContent Title="Medicine"
+                  Route="MedicinePage"
+                  ContentTemplate="{DataTemplate localMenu:MedicinePage}">
+
+        <ShellContent.Icon>
+            <FontImageSource Glyph="{StaticResource ic_Medical_information}"
+                             FontFamily="MaterialIcon"
+                             Color="Green" />
+        </ShellContent.Icon>
+    </ShellContent>
+    
+    <ShellContent Title="Expense"
+                  Route="ExpensePage"
+                  ContentTemplate="{DataTemplate localMenu:ExpensePage}">
+
+        <ShellContent.Icon>
+            <FontImageSource Glyph="{StaticResource ic_Currency_rupee}"
+                             FontFamily="MaterialIcon"
+                             Color="Green" />
+        </ShellContent.Icon>
+    </ShellContent>
+    
+    <ShellContent Title="View Expense"
+                  Route="ExpenceListView"
+                  ContentTemplate="{DataTemplate local:ExpenceListView}">
+
+        <ShellContent.Icon>
+            <FontImageSource Glyph="{StaticResource ic_Currency_rupee}"
+                             FontFamily="MaterialIcon"
+                             Color="Green" />
+        </ShellContent.Icon>
+    </ShellContent>
+
+    <ShellContent Title="Change Password"
+                  Route="ForgotPasswordPage"
+                  ContentTemplate="{DataTemplate local:ForgotPasswordPage}">
+
+        <ShellContent.Icon>
+            <FontImageSource Glyph="{StaticResource ic_Password}"
+                             FontFamily="MaterialIcon"
+                             Color="Green" />
+        </ShellContent.Icon>
+    </ShellContent>
+
+    <ShellContent Title="User Feedback"
+                  Route="UserFeedbackPage"
+                  ContentTemplate="{DataTemplate localMenu:UserFeedbackPage}">
+
+        <ShellContent.Icon>
+            <FontImageSource Glyph="{StaticResource ic_Help}"
+                             FontFamily="MaterialIcon"
+                             Color="Green" />
+        </ShellContent.Icon>
+    </ShellContent>
+    
+    <MenuItem Text="Delete Account"
+              Command="{Binding DeleteAccountCommand}">
+        <MenuItem.IconImageSource>
+            <FontImageSource Glyph="{StaticResource ic_Delete}"
+                             FontFamily="MaterialIcon"
+                             Color="Green" />
+        </MenuItem.IconImageSource>
+    </MenuItem>
+
+    <Shell.FlyoutFooter>
+        <controls:FlyoutFooter />
+    </Shell.FlyoutFooter>
+</Shell>

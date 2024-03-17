@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:ctrl="http://zoft.MauiExtensions/Controls"
+             x:Class="CMS.View.AddEditTreatementPage"
+             Shell.TitleColor="White"
+             xmlns:vm="clr-namespace:CMS.ViewModel"
+             xmlns:tModel="clr-namespace:CMS.Tables"
+             xmlns:model="clr-namespace:CMS.Model"
+             x:DataType="vm:AddTreatementViewModel"
+             Title="Treatement">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding AppearingCommand}"
+                                        EventName="Appearing" />
+    </ContentPage.Behaviors>
+    <Grid Padding="15,20,15,15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackLayout Grid.Row="0"
+                     Grid.RowSpan="2"
+                     VerticalOptions="CenterAndExpand"
+                     HorizontalOptions="CenterAndExpand"
+                     IsVisible="{Binding AppearingCommand.IsRunning}">
+            <ActivityIndicator HorizontalOptions="Center"
+                               IsRunning="{Binding AppearingCommand.IsRunning}"
+                               IsVisible="{Binding AppearingCommand.IsRunning}"
+                               VerticalOptions="Center"
+                               Color="White" />
+            <Label Text="Loading..." />
+        </StackLayout>
+        <ScrollView Grid.Row="0"
+                    IsVisible="{Binding AppearingCommand.IsRunning, Converter={StaticResource InvertedBoolConverter}}">
+            <StackLayout Orientation="Vertical"
+                         BackgroundColor="White"
+                         Padding="3"
+                         Spacing="10">
+                <StackLayout Orientation="Vertical"
+                             Spacing="5"
+                             HorizontalOptions="FillAndExpand">
+
+                    <Label FontSize="18">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Patient Name" />
+                                <Span Text=" " />
+                                <Span Text="*"
+                                      TextColor="Red" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Frame BorderColor="Gray"
+                           Padding="5,5,5,0"
+                           CornerRadius="10">
+                        <StackLayout Orientation="Horizontal"
+                                     Spacing="0"
+                                     Margin="0"
+                                     Padding="0"
+                                     HorizontalOptions="FillAndExpand">
+                            <ctrl:AutoCompleteEntry Placeholder="Search for a patient name"
+                                                    ItemsSource="{Binding SearchPatients}"
+                                                    TextMemberPath="PatientName"
+                                                    DisplayMemberPath="PatientName"
+                                                    ClearButtonVisibility="WhileEditing"
+                                                    HorizontalOptions="FillAndExpand"
+                                                    TextChangedCommand="{Binding TextChangedFilterListCommand}"
+                                                    SelectedSuggestion="{Binding SelectedPatient}" />
+                            
+                            <Label Text="{StaticResource ic_Arrow_drop_down}"
+                                   TextColor="Green"
+                                   FontSize="30"
+                                   VerticalOptions="Center"
+                                   FontFamily="{StaticResource MaterialIconKey}" />
+                        </StackLayout>
+                    </Frame>
+
+                    <Label Text="Patient name is required"
+                           TextColor="Red"
+                           IsVisible="{Binding IsPatientRequried}"
+                           HorizontalOptions="FillAndExpand" />
+
+                    <Label Text="Patient are not found, please create new patient."
+                           TextColor="Red"
+                           IsVisible="{Binding IsValidPatient}"
+                           HorizontalOptions="FillAndExpand" />
+
+                    <Grid Padding="0"
+                          Margin="0">
+                        <Button Text="+ Add New Patient"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                TextColor="Green"
+                                BackgroundColor="Transparent"
+                                Command="{Binding AddPatientCommand}"
+                                HorizontalOptions="EndAndExpand" />
+
+                        <ActivityIndicator HorizontalOptions="Center"
+                                           IsRunning="{Binding AddPatientCommand.IsRunning}"
+                                           IsVisible="{Binding AddPatientCommand.IsRunning}"
+                                           VerticalOptions="Center"
+                                           Color="White" />
+                    </Grid>
+
+
+                    <Label FontSize="18"
+                           Text="Complaint" />
+                    <Frame BorderColor="Gray"
+                           Padding="5,5,5,0"
+                           CornerRadius="10">
+                        <Editor Placeholder="Type Here"
+                                Text="{Binding Complaint}"
+                                HorizontalOptions="FillAndExpand" />
+                    </Frame>
+
+
+                    <Label FontSize="18"
+                           Text="Examination" />
+                    <Frame BorderColor="Gray"
+                           Padding="5,5,5,0"
+                           CornerRadius="10">
+                        <Editor Placeholder="Type Here"
+                                Text="{Binding Examination}"
+                                HorizontalOptions="FillAndExpand" />
+                    </Frame>
+
+                    <Label FontSize="18"
+                           Text="Lab (City)" />
+                    <Frame BorderColor="Gray"
+                           Padding="5,5,5,0"
+                           CornerRadius="10">
+                        <Entry Placeholder="lab (City)"
+                               HorizontalOptions="FillAndExpand" />
+                    </Frame>
+                    <StackLayout Orientation="Horizontal"
+                                 Spacing="10">
+
+                        <StackLayout Orientation="Vertical"
+                                     Spacing="5"
+                                     HorizontalOptions="FillAndExpand">
+                            <Label FontSize="18"
+                                   Text="Height" />
+                            <Frame BorderColor="Gray"
+                                   Padding="5,5,5,0"
+                                   CornerRadius="10">
+                                <StackLayout Orientation="Horizontal">
+                                    <Entry Placeholder="Ex. 5.5"
+                                           Text="{Binding Height}"
+                                           Keyboard="Numeric"
+                                           HorizontalOptions="FillAndExpand" />
+                                    <Label Text="ft.in"
+                                           TextColor="Gray"
+                                           VerticalTextAlignment="Center"
+                                           HorizontalOptions="End" />
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+
+                        <StackLayout Orientation="Vertical"
+                                     Spacing="5"
+                                     HorizontalOptions="FillAndExpand">
+                            <Label FontSize="18"
+                                   Text="Weight" />
+                            <Frame BorderColor="Gray"
+                                   Padding="5,5,5,0"
+                                   CornerRadius="10">
+                                <StackLayout Orientation="Horizontal">
+                                    <Entry Placeholder="Ex. 60"
+                                           Text="{Binding Weight}"
+                                           Keyboard="Numeric"
+                                           HorizontalOptions="FillAndExpand" />
+                                    <Label Text="kg"
+                                           TextColor="Gray"
+                                           VerticalTextAlignment="Center"
+                                           HorizontalOptions="End" />
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal"
+                                 Spacing="10">
+
+                        <StackLayout Orientation="Vertical"
+                                     Spacing="5"
+                                     HorizontalOptions="FillAndExpand">
+                            <Label FontSize="18"
+                                   Text="Blood Pressure" />
+                            <Frame BorderColor="Gray"
+                                   Padding="5,5,5,0"
+                                   CornerRadius="10">
+                                <StackLayout Orientation="Horizontal">
+                                    <Entry Placeholder="blood pressure"
+                                           Text="{Binding BloodPressure}"
+                                           Keyboard="Numeric"
+                                           HorizontalOptions="FillAndExpand" />
+                                    <Label Text="mmHg"
+                                           TextColor="Gray"
+                                           VerticalTextAlignment="Center"
+                                           HorizontalOptions="End" />
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+
+                        <StackLayout Orientation="Vertical"
+                                     Spacing="5"
+                                     HorizontalOptions="FillAndExpand">
+                            <Label FontSize="18"
+                                   Text="Number of Pulse" />
+                            <Frame BorderColor="Gray"
+                                   Padding="5,5,5,0"
+                                   CornerRadius="10">
+                                <StackLayout Orientation="Horizontal">
+                                    <Entry Placeholder="number of pulse"
+                                           Text="{Binding NumberOfPulse}"
+                                           Keyboard="Numeric"
+                                           HorizontalOptions="FillAndExpand" />
+                                    <Label Text="kg"
+                                           TextColor="Gray"
+                                           VerticalTextAlignment="Center"
+                                           HorizontalOptions="End" />
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal"
+                                 Spacing="10">
+
+                        <StackLayout Orientation="Vertical"
+                                     Spacing="5"
+                                     HorizontalOptions="FillAndExpand">
+                            <Label FontSize="18"
+                                   Text="SPO2" />
+                            <Frame BorderColor="Gray"
+                                   Padding="5,5,5,0"
+                                   CornerRadius="10">
+                                <StackLayout Orientation="Horizontal">
+                                    <Entry Placeholder="SPO2"
+                                           Text="{Binding SPO2}"
+                                           Keyboard="Numeric"
+                                           HorizontalOptions="FillAndExpand" />
+                                    <Label Text="%"
+                                           TextColor="Gray"
+                                           VerticalTextAlignment="Center"
+                                           HorizontalOptions="End" />
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+
+                        <StackLayout Orientation="Vertical"
+                                     Spacing="5"
+                                     HorizontalOptions="FillAndExpand">
+                            <Label FontSize="18"
+                                   Text="Temperature" />
+                            <Frame BorderColor="Gray"
+                                   Padding="5,5,5,0"
+                                   CornerRadius="10">
+                                <StackLayout Orientation="Horizontal">
+                                    <Entry Placeholder="temperature"
+                                           Text="{Binding Temperature}"
+                                           Keyboard="Numeric"
+                                           HorizontalOptions="FillAndExpand" />
+                                    <Label Text="%"
+                                           TextColor="Gray"
+                                           VerticalTextAlignment="Center"
+                                           HorizontalOptions="End" />
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical"
+                                 Padding="0,10,0,10">
+                        <Frame BorderColor="Gray"
+                               Padding="5,5,5,0"
+                               CornerRadius="10">
+                            <StackLayout Orientation="Vertical"
+                                         Spacing="10"
+                                         Padding="5">
+                                <StackLayout Orientation="Horizontal"
+                                             VerticalOptions="CenterAndExpand">
+                                    <Label FontSize="18"
+                                           VerticalTextAlignment="Center"
+                                           Text="Prescription" />
+                                    <Button Text="+ Add Medicine"
+                                            FontSize="16"
+                                            FontAttributes="Bold"
+                                            TextColor="Green"
+                                            VerticalOptions="Start"
+                                            BackgroundColor="Transparent"
+                                            Command="{Binding AddMedicineCommand}"
+                                            HorizontalOptions="EndAndExpand" />
+                                </StackLayout>
+                                <StackLayout Orientation="Vertical"
+                                             Spacing="10"
+                                             IsVisible="{Binding HasAnyPrescription}"
+                                             BindableLayout.ItemsSource="{Binding Prescriptions}">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate x:DataType="model:PrescriptionModel">
+
+                                            <Grid Margin="0"
+                                                  HorizontalOptions="FillAndExpand">
+                                                <Frame BorderColor="Gray"
+                                                   Padding="10,5,10,5"
+                                                   CornerRadius="10">
+                                                <StackLayout Orientation="Horizontal"
+                                                             Spacing="10"
+                                                             HorizontalOptions="FillAndExpand">
+                                                    <Image Source="antibiotic.png" />
+                                                    <StackLayout Orientation="Vertical"
+                                                                 HorizontalOptions="FillAndExpand">
+                                                        <Label Text="{Binding MedicineName}"
+                                                               FontSize="18" />
+                                                        <Label FontSize="16">
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="{Binding Dosage}" />
+                                                                    <Span Text=" | " />
+                                                                    <Span Text="{Binding DurationType}" />
+                                                                    <Span Text=" | " />
+                                                                    <Span Text="{Binding MealType}" />
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+                                                    </StackLayout>
+                                                    <Label Text="{StaticResource ic_More_vert}"
+                                                           FontSize="20"
+                                                           FontAttributes="Bold"
+                                                           HorizontalOptions="End"
+                                                           VerticalOptions="Center"
+                                                           FontFamily="{StaticResource MaterialIconKey}" />
+                                                    </StackLayout>
+                                                    <Frame.GestureRecognizers>
+                                                        <TapGestureRecognizer NumberOfTapsRequired="1"
+                                                                              Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AddTreatementViewModel}}, Path=EditPrescriptionCommand}"
+                                                                              CommandParameter="{Binding .}" />
+                                                    </Frame.GestureRecognizers>
+                                                </Frame>
+
+                                                <ActivityIndicator HorizontalOptions="Center"
+                                                                   IsRunning="{Binding Source={RelativeSource AncestorType={x:Type vm:AddTreatementViewModel}}, Path=EditPrescriptionCommand.IsRunning}"
+                                                                   IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:AddTreatementViewModel}}, Path=EditPrescriptionCommand.IsRunning}"
+                                                                   VerticalOptions="Center"
+                                                                   Color="Green" />
+
+                                            </Grid>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </StackLayout>
+
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal"
+                                 Spacing="10"
+                                 HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Vertical"
+                                     Spacing="5"
+                                     HorizontalOptions="FillAndExpand">
+                            <Label FontSize="18">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Total Fees" />
+                                        <Span Text=" " />
+                                        <Span Text="*"
+                                              TextColor="Red" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Frame BorderColor="Gray"
+                                   Padding="5,5,5,0"
+                                   CornerRadius="10">
+
+                                <Entry Placeholder="Total Fees"
+                                       Text="{Binding TotalFees}"
+                                       ClearButtonVisibility="WhileEditing"
+                                       HorizontalOptions="FillAndExpand" />
+                            </Frame>
+                        </StackLayout>
+
+                        <StackLayout Orientation="Vertical"
+                                     Spacing="5"
+                                     HorizontalOptions="FillAndExpand">
+                            <Label FontSize="18">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Paid Fees" />
+                                        <Span Text=" " />
+                                        <Span Text="*"
+                                              TextColor="Red" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Frame BorderColor="Gray"
+                                   Padding="5,5,5,0"
+                                   CornerRadius="10">
+
+                                <Entry Placeholder="Paid Fees"
+                                       Text="{Binding PaidFees}"
+                                       ClearButtonVisibility="WhileEditing"
+                                       HorizontalOptions="FillAndExpand" />
+                            </Frame>
+
+                        </StackLayout>
+                    </StackLayout>
+
+
+                    <Label FontSize="18"
+                           Text="Doctor Name" />
+                    <Frame BorderColor="Gray"
+                           Padding="5,5,5,0"
+                           CornerRadius="10">
+                        <Entry Placeholder="Doctor Name"
+                               Text="{Binding ReferredDoctorName}"
+                               HorizontalOptions="FillAndExpand" />
+                    </Frame>
+
+                    <Label FontSize="18"
+                           Text="Hospital Name" />
+                    <Frame BorderColor="Gray"
+                           Padding="5,5,5,0"
+                           CornerRadius="10">
+                        <Editor Placeholder="Hospital Name"
+                                Text="{Binding ReferredHospitalName}"
+                                HorizontalOptions="FillAndExpand" />
+                    </Frame>
+
+                    <Label FontSize="18"
+                           Text="Follow up date" />
+                    <Frame BorderColor="Gray"
+                           Padding="5,5,5,0"
+                           CornerRadius="10">
+                        <StackLayout Orientation="Horizontal">
+                            <DatePicker HorizontalOptions="FillAndExpand"
+                                        Date="{Binding FolowUpDate}" />
+                            <Label Text="{StaticResource ic_Calendar_today}"
+                                   TextColor="Green"
+                                   VerticalTextAlignment="Center"
+                                   FontFamily="{StaticResource MaterialIconKey}"
+                                   FontSize="30" />
+                        </StackLayout>
+                    </Frame>
+
+
+                    <Label FontSize="18"
+                           Text="Remarks" />
+                    <Frame BorderColor="Gray"
+                           Padding="5,5,5,0"
+                           CornerRadius="10">
+                        <Entry Placeholder="Remarks"
+                               Text="{Binding Remarks}"
+                               ClearButtonVisibility="WhileEditing"
+                               HorizontalOptions="FillAndExpand" />
+                    </Frame>
+
+                    <Label FontSize="18"
+                           Text="Advice" />
+                    <Frame BorderColor="Gray"
+                           Padding="5,5,5,0"
+                           CornerRadius="10">
+                        <Editor Placeholder="Type Here"
+                                Text="{Binding Advice}"
+                                HorizontalOptions="FillAndExpand" />
+                    </Frame>
+
+                </StackLayout>
+
+            </StackLayout>
+        </ScrollView>
+        <StackLayout Grid.Row="1"
+                     Spacing="10"
+                     HorizontalOptions="FillAndExpand"
+                     Orientation="Horizontal"
+                     IsVisible="{Binding AppearingCommand.IsRunning, Converter={StaticResource InvertedBoolConverter}}">
+            <Frame BorderColor="Green"
+                   CornerRadius="20"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="CenterAndExpand"
+                   Padding="4">
+                <Button Text="Cancel"
+                        TextColor="Green"
+                        BackgroundColor="White"
+                        Command="{Binding CancelCommand}"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        FontAttributes="Bold" />
+            </Frame>
+
+            <Grid Margin="0"
+                  HorizontalOptions="FillAndExpand">
+                <Frame BorderColor="Green"
+                       BackgroundColor="Green"
+                       CornerRadius="20"
+                       VerticalOptions="CenterAndExpand"
+                       Padding="4">
+                    <Frame.Triggers>
+                        <DataTrigger TargetType="Frame"
+                                     Binding="{Binding SaveTreatmentCommand.IsRunning}"
+                                     Value="true">
+                            <Setter Property="BorderColor"
+                                    Value="Grey" />
+                        </DataTrigger>
+                    </Frame.Triggers>
+                    <Button Text="Save"
+                            BackgroundColor="Green"
+                            Command="{Binding SaveTreatmentCommand}"
+                            HorizontalOptions="CenterAndExpand"
+                            VerticalOptions="Center"
+                            FontAttributes="Bold" />
+                </Frame>
+
+                <ActivityIndicator HorizontalOptions="Center"
+                                   IsRunning="{Binding SaveTreatmentCommand.IsRunning}"
+                                   IsVisible="{Binding SaveTreatmentCommand.IsRunning}"
+                                   VerticalOptions="Center"
+                                   Color="White" />
+
+            </Grid>
+
+
+        </StackLayout>
+    </Grid>
+
+</ContentPage>

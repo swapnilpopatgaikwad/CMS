@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+                  xmlns:mopupsanim="clr-namespace:Mopups.Animations;assembly=Mopups"
+                  x:Class="CMS.Popups.AddPatientsPopup"
+                  Title="MyPopupPage"
+                  BackgroundColor="#80000000"
+                  CloseWhenBackgroundIsClicked="False">
+    
+    <ScrollView HorizontalOptions="Center" VerticalOptions="End">
+        <Border Margin="0" Padding="5"
+                BackgroundColor="White"
+                HorizontalOptions="FillAndExpand">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20"/>
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="10" Padding="10" >
+
+                <HorizontalStackLayout Margin="0,0,0,5">
+                    <Label Text="Quick Patient" TextColor="Black" FontSize="Medium"
+                       FontAttributes="Bold" HorizontalOptions="StartAndExpand" />
+
+                    <!--<Button Text="Close" HorizontalOptions="EndAndExpand"/>-->
+
+                </HorizontalStackLayout>
+
+                <Label Text="Patient Name"
+                       TextColor="Black"
+                       FontSize="Medium"
+                       />
+
+                <Entry x:Name="PatientNameEntry"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center"
+                    Placeholder="Patient Name"
+                    Text="{Binding PatientName}"/>
+
+                <Label Text="Contact Number"
+                        TextColor="Black"
+                        FontSize="Medium"
+                        />
+
+                <Entry x:Name="PatientContactEntry"
+                    Keyboard="Telephone" MaxLength="10"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center"
+                    Placeholder="Contact Number"
+                    Text="{Binding PatientContact}"
+                    />
+
+                <Button
+                    HorizontalOptions="Fill"
+                    VerticalOptions="EndAndExpand"
+                    Text="Save" CornerRadius="12"
+                    Command="{Binding SavePatientCommand}"/>
+
+            </VerticalStackLayout>
+        </Border>
+
+    </ScrollView>
+
+</mopups:PopupPage>

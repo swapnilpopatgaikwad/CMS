@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CMS.Controls.FlyoutHeader"
+             HeightRequest="150">
+    <Grid BackgroundColor="Green">
+        <Image Aspect="AspectFit"
+               Source="logo.png"
+               Opacity="0.6" />
+        <Label Text="CMS"
+               FontSize="24"
+               TextColor="White"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center" />
+    </Grid>
+</ContentView>

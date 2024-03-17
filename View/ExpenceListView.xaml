@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="CMS.View.ExpenceListView"
+             xmlns:vm="clr-namespace:CMS.ViewModel"
+             xmlns:model="clr-namespace:CMS.Model"
+             x:DataType="vm:ExpenseViewModel"
+             Shell.TitleColor="White"
+             BackgroundColor="WhiteSmoke"
+             Title="Expence List">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding ExportClickCommand}"
+                     Order="Secondary"
+                     IconImageSource="excels.png"
+                     Text="Export Excel"
+                     Priority="0" />
+        <ToolbarItem 
+                     Command="{Binding ExportClickCommand}"
+                     Order="Secondary"
+                     IconImageSource="Xamarin.png"
+                     Text="Filters"
+                     Priority="0" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="lblStyle"
+                   TargetType="Label">
+                <Setter Property="TextColor"
+                        Value="Black" />
+                <Setter Property="VerticalOptions"
+                        Value="Center" />
+                <Setter Property="VerticalTextAlignment"
+                        Value="Center" />
+                <Setter Property="FontSize"
+                        Value="16" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding AppearingCommand}"
+                                        EventName="Appearing" />
+    </ContentPage.Behaviors>
+    <Grid RowDefinitions="Auto,Auto,*"
+          Padding="10">
+        <Frame CornerRadius="20"
+               Padding="0" 
+               Grid.Row="0">
+            <SearchBar Placeholder="Search here.."
+                       CancelButtonColor="Grey"
+                       Text="{Binding SearchText}"
+                       FontSize="18">
+                <SearchBar.Behaviors>
+                    <toolkit:EventToCommandBehavior Command="{Binding TextChangedCommand}"
+                                                    EventName="TextChanged" />
+                </SearchBar.Behaviors>
+            </SearchBar>
+        </Frame>
+        <!--<RefreshView Grid.Row="1"
+                     Command="{Binding RefreshCommand}"
+                     IsVisible="true"
+                     IsRefreshing="{Binding IsRefreshing}">-->
+            <ScrollView Grid.Row="1">
+                <StackLayout x:Name="MainListView"
+                             Padding="0"
+                             Spacing="10"
+                             Margin="0,20,0,0"
+                         BindableLayout.ItemsSource="{Binding ExpenceModelList}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:ExpenceModel">
+                            <SwipeView BackgroundColor="Transparent">
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Edit"
+                                               BackgroundColor="WhiteSmoke"
+                                                   Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ExpenseViewModel}}, Path=UpdateExpCommand}"
+                                                   CommandParameter="{Binding .}" >
+                                            <SwipeItem.IconImageSource>
+                                                <FontImageSource Glyph="{StaticResource ic_Edit}"
+                                                                 FontFamily="{StaticResource MaterialIconKey}"
+                                                                 Color="Green" />
+                                            </SwipeItem.IconImageSource>
+                                        </SwipeItem>
+                                        <SwipeItem Text="Delete"
+                                                   CommandParameter="{Binding Id}"
+                                                   BackgroundColor="WhiteSmoke"
+                                                   Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ExpenseViewModel}}, Path=DeleteClickCommand}">
+
+                                            <SwipeItem.IconImageSource>
+                                                <FontImageSource Glyph="{StaticResource ic_Delete}"
+                                                                 FontFamily="{StaticResource MaterialIconKey}"
+                                                                 Color="Red" />
+                                            </SwipeItem.IconImageSource>
+                                        </SwipeItem>
+                                    </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Frame CornerRadius="20"
+                                   Padding="0">
+                                <StackLayout Padding="20,0"
+                                             Spacing="0">
+                                    <StackLayout Orientation="Horizontal"
+                                                 BackgroundColor="Transparent"
+                                                 HorizontalOptions="FillAndExpand"
+                                                 VerticalOptions="Center"
+                                                 Padding="0,10"
+                                                 Spacing="0">
+                                        <StackLayout HorizontalOptions="FillAndExpand"
+                                                     Margin="20,0,0,0"
+                                                     BackgroundColor="Transparent"
+                                                     Padding="0"
+                                                     Spacing="0"
+                                                     VerticalOptions="Center">
+                                            <Label Style="{StaticResource lblStyle}" >
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="Name : "
+                                                              FontSize="14"
+                                                              FontAttributes="Bold" />
+                                                        <Span Text="{Binding ExpenceName}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                            <Label Style="{StaticResource lblStyle}">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="Amount : "
+                                                              FontSize="14"
+                                                              FontAttributes="Bold" />
+                                                        <Span Text="{Binding Amount}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                            <Label Text="{Binding CreatedDate}"
+                                                   Style="{StaticResource lblStyle}" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </SwipeView>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </ScrollView>
+        <!--</RefreshView>-->
+    </Grid>
+</ContentPage>

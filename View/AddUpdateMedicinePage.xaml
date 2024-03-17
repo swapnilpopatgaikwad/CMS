@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CMS.View.AddUpdateMedicinePage"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:CMS.ViewModel"
+             xmlns:model="clr-namespace:CMS.Model"
+             x:DataType="vm:AddUpdateMedicineViewModel"
+             BackgroundColor="WhiteSmoke"
+             Shell.TitleColor="White"
+             Title="Add Or Update Medicine">
+    <StackLayout Padding="15,20,15,15"
+                 Spacing="10">
+        <StackLayout Spacing="5">
+            <Label FontSize="18">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Medicine Name" />
+                        <Span Text="    " />
+                        <Span Text="*" TextColor="Red" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Frame BorderColor="Gray"
+                   Padding="5,5,5,2"
+                   CornerRadius="10">
+                <Entry Placeholder="Medicine Name"
+                       ClearButtonVisibility="WhileEditing"
+                       Text="{Binding MedicineModel.MedicineName}"
+                       HorizontalOptions="FillAndExpand" />
+            </Frame>
+        </StackLayout>
+        <StackLayout Spacing="5"
+                     VerticalOptions="FillAndExpand">
+            <Label FontSize="18"
+                   Text="Medicine Description" />
+            <Frame BorderColor="Gray"
+                   Padding="5,5,5,2"
+                   CornerRadius="10">
+                <Editor Placeholder="Medicine Description"
+                        HeightRequest="50"
+                        VerticalOptions="FillAndExpand"
+                        Text="{Binding MedicineModel.MedicineDescription}"
+                        HorizontalOptions="FillAndExpand" />
+            </Frame>
+        </StackLayout>
+        <StackLayout VerticalOptions="End"
+                     HorizontalOptions="CenterAndExpand"
+                     BackgroundColor="Transparent">
+            <Grid Margin="0"
+                  Padding="0"
+                  RowSpacing="0">
+
+                <Button Padding="15"
+                        Margin="5"
+                        CornerRadius="20"
+                        Text="Save Medicine"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        BackgroundColor="Green"
+                        Command="{Binding SaveMedicineCommand}"
+                        VerticalOptions="End"
+                        HorizontalOptions="End" />
+
+                <ActivityIndicator HorizontalOptions="Center"
+                                   Margin="10"
+                                   IsRunning="{Binding SaveMedicineCommand.IsRunning}"
+                                   IsVisible="{Binding SaveMedicineCommand.IsRunning}"
+                                   VerticalOptions="EndAndExpand"
+                                   Color="White" />
+            </Grid>
+        </StackLayout>
+    </StackLayout>
+
+</ContentPage>

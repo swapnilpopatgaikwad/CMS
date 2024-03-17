@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CMS.View.UserProfile"
+             xmlns:vm="clr-namespace:CMS.ViewModel"
+             x:DataType="vm:UserProfileViewModel"
+             Shell.NavBarIsVisible="False"
+             Padding="10"
+             BackgroundColor="WhiteSmoke">
+
+    <StackLayout Orientation="Vertical" Spacing="10">
+        <Label Text="Profile" HorizontalOptions="StartAndExpand" FontSize="18" FontAttributes="Bold"/>
+
+        <StackLayout Orientation="Horizontal" Spacing="15">
+            <StackLayout HorizontalOptions="Start">
+                <Frame BorderColor="White"
+                       CornerRadius="50"
+                       Padding="0"
+                       HasShadow="True" >
+                    <Label Text="{StaticResource ic_Person}"
+                           FontFamily="{StaticResource MaterialIconKey}"
+                           FontSize="60"
+                           Padding="10"
+                           TextColor="Green"
+                           BackgroundColor="LightGray"
+                           FontAttributes="Bold"/>
+                </Frame>
+            </StackLayout>
+            <StackLayout Orientation="Vertical" Spacing="10">
+                <Label Text="Dr. Swapnil Gaiwkad"
+                       FontSize="18"
+                       FontAttributes="Bold"/>
+                <StackLayout Orientation="Horizontal" Spacing="5">
+                    <Label Text="{StaticResource ic_Phone_android}"
+                           FontSize="25"
+                           FontFamily="{StaticResource MaterialIconKey}"
+                           TextColor="Green"/>
+                    <Label Text="+919876543210" VerticalOptions="Center"/>
+                </StackLayout>
+            </StackLayout>
+
+        </StackLayout>
+
+        <Button Text="Edit Profile"
+                BackgroundColor="Green"
+                FontAttributes="Bold"/>
+        <Frame BackgroundColor="White" HasShadow="True">
+            <StackLayout Orientation="Vertical" Spacing="15">
+                <StackLayout Orientation="Horizontal" Spacing="10">
+                    <Label Text="{StaticResource ic_Medical_information}"
+                           FontSize="25"
+                           TextColor="Green"
+                           FontFamily="{StaticResource MaterialIconKey}"/>
+                    <Label Text="Medicine"
+                           FontSize="18"
+                           VerticalOptions="Center"
+                           HorizontalOptions="StartAndExpand"/>
+
+                    <Label Text="{StaticResource ic_Navigate_next}"
+                           FontSize="25"
+                           TextColor="Green"
+                           FontFamily="{StaticResource MaterialIconKey}"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Spacing="10">
+                    <Label Text="{StaticResource ic_Password}"
+                           FontSize="25"
+                           TextColor="Green"
+                           FontFamily="{StaticResource MaterialIconKey}"/>
+                    <Label Text="Change Password"
+                           FontSize="18"
+                           VerticalOptions="Center"
+                           HorizontalOptions="StartAndExpand"/>
+
+                    <Label Text="{StaticResource ic_Navigate_next}"
+                           FontSize="25"
+                           TextColor="Green"
+                           FontFamily="{StaticResource MaterialIconKey}"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Spacing="10">
+                    <Label Text="{StaticResource ic_Help}"
+                           FontSize="25"
+                           TextColor="Green"
+                           FontFamily="{StaticResource MaterialIconKey}"/>
+                    <Label Text="User Feedback"
+                           FontSize="18"
+                           VerticalOptions="Center"
+                           HorizontalOptions="StartAndExpand"/>
+
+                    <Label Text="{StaticResource ic_Navigate_next}"
+                           FontSize="25"
+                           TextColor="Green"
+                           FontFamily="{StaticResource MaterialIconKey}"/>
+                </StackLayout>
+                
+                <StackLayout Orientation="Horizontal" Spacing="10">
+                    <Label Text="{StaticResource ic_Delete}"
+                           FontSize="25"
+                           TextColor="Green"
+                           FontFamily="{StaticResource MaterialIconKey}"/>
+                    <Label Text="Delete Account"
+                           FontSize="18"
+                           VerticalOptions="Center"
+                           HorizontalOptions="StartAndExpand"/>
+                </StackLayout>
+                <BoxView HeightRequest="1" BackgroundColor="Grey"/>
+
+                <StackLayout Orientation="Horizontal" Spacing="10">
+                    <Label Text="{StaticResource ic_Logout}"
+                           FontSize="25"
+                           TextColor="Green"
+                           FontFamily="{StaticResource MaterialIconKey}"/>
+                    <Label Text="Logout"
+                           FontSize="18"
+                           VerticalOptions="Center"
+                           HorizontalOptions="StartAndExpand"/>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding LogOutCommand}" NumberOfTapsRequired="1"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+            </StackLayout>
+        </Frame>
+
+    </StackLayout>
+    
+</ContentPage>

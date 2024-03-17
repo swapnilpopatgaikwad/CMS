@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CMS.View.PatientTabPage"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:model="clr-namespace:CMS.Tables"
+             xmlns:vm="clr-namespace:CMS.ViewModel"
+             x:DataType="vm:PatientTabViewModel"
+             Title="Patients"
+             Shell.TitleColor="White"
+             Shell.BackgroundColor="Green"
+             BackgroundColor="WhiteSmoke">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding AppearingCommand}"
+                                        EventName="Appearing" />
+        <toolkit:EventToCommandBehavior Command="{Binding DisappearingCommand}"
+                                        EventName="Disappearing" />
+    </ContentPage.Behaviors>
+
+    <ContentPage.Content>
+        <Grid Padding="10"
+              RowSpacing="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="9*" />
+            </Grid.RowDefinitions>
+
+            <StackLayout Grid.Row="0"
+                         Spacing="10"
+                         VerticalOptions="Start"
+                         Orientation="Vertical">
+                <StackLayout>
+                    <Label FontSize="22"
+                           FontAttributes="Bold">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Patient" />
+                                <Span Text="  " />
+                                <Span Text="(" />
+                                <Span Text="{Binding TotalPatients}" />
+                                <Span Text=")" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+                <Frame CornerRadius="20"
+                       Padding="0">
+
+                    <!--Name, dd-MM-yy-->
+                    <SearchBar Placeholder="Name, Contact No, Email, City"
+                               CancelButtonColor="Grey"
+                               Text="{Binding SearchText}"
+                               FontSize="18">
+
+                        <SearchBar.Behaviors>
+                            <toolkit:EventToCommandBehavior Command="{Binding TextChangedCommand}"
+                                                            EventName="TextChanged" />
+                        </SearchBar.Behaviors>
+                    </SearchBar>
+                </Frame>
+            </StackLayout>
+
+            <ScrollView Grid.Row="1"
+                        VerticalScrollBarVisibility="Never"
+                        VerticalOptions="FillAndExpand">
+                <StackLayout Orientation="Vertical"
+                             VerticalOptions="FillAndExpand">
+                    <StackLayout VerticalOptions="CenterAndExpand"
+                                 HorizontalOptions="CenterAndExpand"
+                                 IsVisible="{Binding AppearingCommand.IsRunning}">
+                        <ActivityIndicator HorizontalOptions="Center"
+                                           IsRunning="{Binding AppearingCommand.IsRunning}"
+                                           IsVisible="{Binding AppearingCommand.IsRunning}"
+                                           VerticalOptions="Center"
+                                           Color="Green" />
+                        <Label Text="Loading..."
+                               TextColor="Green" />
+                    </StackLayout>
+                    <CollectionView x:Name="treatmentList"
+                                    SelectionMode="None"
+                                    IsVisible="{Binding AppearingCommand.IsRunning, Converter={StaticResource InvertedBoolConverter}}"
+                                    VerticalOptions="FillAndExpand"
+                                    ItemsSource="{Binding Patients}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="10"
+                                               Orientation="Vertical" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Patient">
+                                <Frame CornerRadius="20"
+                                       Padding="0">
+                                    <StackLayout Orientation="Vertical"
+                                                 Spacing="10"
+                                                 Padding="15">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="{Binding PatientName}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="18"
+                                                   HorizontalOptions="FillAndExpand" />
+                                            <Label Text="{StaticResource ic_More_vert}"
+                                                   FontSize="24"
+                                                   TextColor="Green"
+                                                   FontAttributes="Bold"
+                                                   FontFamily="{StaticResource MaterialIconKey}"
+                                                   HorizontalOptions="EndAndExpand" />
+                                        </StackLayout>
+                                        <Label TextColor="Gray"
+                                               Text="{Binding PatientContact}"
+                                               VerticalOptions="End" />
+                                    </StackLayout>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="1"
+                                                              Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PatientTabViewModel}}, Path=EditPatientCommand}"
+                                                              CommandParameter="{Binding .}" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </ScrollView>
+
+            <StackLayout Grid.Row="1"
+                         VerticalOptions="End"
+                         BackgroundColor="Transparent"
+                         IsVisible="{Binding AppearingCommand.IsRunning, Converter={StaticResource InvertedBoolConverter}}">
+                <Grid Margin="0"
+                      Padding="0"
+                      RowSpacing="0">
+
+                    <Button Padding="15"
+                            Margin="5"
+                            CornerRadius="40"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            BackgroundColor="Green"
+                            Command="{Binding AddPatientCommand}"
+                            VerticalOptions="End"
+                            HorizontalOptions="End">
+                        <Button.ImageSource>
+                            <FontImageSource Glyph="{StaticResource ic_Add}"
+                                             FontFamily="{StaticResource MaterialIconKey}" />
+                        </Button.ImageSource>
+
+                    </Button>
+
+                    <ActivityIndicator HorizontalOptions="End"
+                                       Margin="10"
+                                       IsRunning="{Binding AddPatientCommand.IsRunning}"
+                                       IsVisible="{Binding AddPatientCommand.IsRunning}"
+                                       VerticalOptions="EndAndExpand"
+                                       Color="White" />
+                </Grid>
+            </StackLayout>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

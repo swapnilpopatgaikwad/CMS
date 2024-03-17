@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:ctrl="http://zoft.MauiExtensions/Controls"
+             x:Class="CMS.View.PrescriptionPage"
+             xmlns:vm="clr-namespace:CMS.ViewModel"
+             x:DataType="vm:PrescriptionViewModel"
+             BackgroundColor="WhiteSmoke"
+             Shell.TitleColor="White"
+             Title="Prescription">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding AppearingCommand}"
+                                        EventName="Appearing" />
+    </ContentPage.Behaviors>
+
+    <Grid Padding="15,20,15,15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ScrollView Grid.Row="0">
+            <StackLayout Orientation="Vertical"
+                         Spacing="10"
+                         Padding="3"
+                         HorizontalOptions="FillAndExpand">
+
+                <Label FontSize="18">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Medicine Name" />
+                            <Span Text=" " />
+                            <Span Text="*"
+                                  TextColor="Red" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Frame BorderColor="Gray"
+                       Padding="5,5,5,0"
+                       CornerRadius="10">
+                    <VerticalStackLayout>
+                        <ctrl:AutoCompleteEntry Placeholder="Search for a medicine name"
+                                                ItemsSource="{Binding FilteredList}"
+                                                TextMemberPath="MedicineName"
+                                                DisplayMemberPath="MedicineName"
+                                                ClearButtonVisibility="WhileEditing"
+                                                TextChangedCommand="{Binding TextChangedFilterListCommand}"
+                                                SelectedSuggestion="{Binding SelectedItem}" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Label Text="Medicine name is required"
+                       TextColor="Red"
+                       IsVisible="{Binding PrescriptionModel.IsMedicineNameRequried}"
+                       HorizontalOptions="FillAndExpand" />
+
+                <Label FontSize="18"
+                       Text="Dosage" />
+                <Frame BorderColor="Gray"
+                       Padding="5,5,5,0"
+                       CornerRadius="10">
+                    <VerticalStackLayout>
+                        <Entry Placeholder="Ex. 1-1-1(max value 999-999-999)"
+                               Text="{Binding PrescriptionModel.Dosage}"
+                               HorizontalOptions="FillAndExpand" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Label FontSize="18"
+                       Text="Medicine Type" />
+                <Frame BorderColor="Gray"
+                       Padding="5,5,5,0"
+                       CornerRadius="10">
+                    <VerticalStackLayout>
+                        <Picker Title="Medicine type"
+                                TitleColor="Gray"
+                                TextColor="Black"
+                                ItemsSource="{Binding PrescriptionModel.MedicineTypes}"
+                                SelectedItem="{Binding PrescriptionModel.MedicineType}"
+                                HorizontalOptions="FillAndExpand" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <StackLayout Orientation="Horizontal"
+                             Spacing="10"
+                             HorizontalOptions="FillAndExpand">
+
+                    <StackLayout Orientation="Vertical"
+                                 Spacing="10"
+                                 HorizontalOptions="FillAndExpand">
+                        <Label FontSize="18"
+                               Text="Duration" />
+                        <Frame BorderColor="Gray"
+                               Padding="5,5,5,0"
+                               CornerRadius="10">
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="5">
+                                <VerticalStackLayout>
+                                    <Entry Placeholder="duration"
+                                           Text="{Binding PrescriptionModel.Duration}"
+                                           HorizontalOptions="FillAndExpand" />
+                                </VerticalStackLayout>
+                                <VerticalStackLayout>
+                                    <Picker Title="Type"
+                                            TitleColor="Gray"
+                                            TextColor="Black"
+                                            ItemsSource="{Binding PrescriptionModel.DurationTypes}"
+                                            SelectedItem="{Binding PrescriptionModel.DurationType}"
+                                            HorizontalOptions="FillAndExpand" />
+                                </VerticalStackLayout>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Vertical"
+                                 Spacing="10"
+                                 HorizontalOptions="FillAndExpand">
+                        <Label FontSize="18"
+                               Text="Quantity" />
+                        <Frame BorderColor="Gray"
+                               Padding="5,5,5,0"
+                               CornerRadius="10">
+                            <VerticalStackLayout>
+                                <Entry Placeholder="quantity"
+                                       Text="{Binding PrescriptionModel.Quantity}"
+                                       HorizontalOptions="FillAndExpand" />
+                            </VerticalStackLayout>
+                        </Frame>
+                    </StackLayout>
+                </StackLayout>
+
+                <Label FontSize="18"
+                       Text="Meal" />
+                <StackLayout Orientation="Horizontal"
+                             Spacing="10"
+                             HorizontalOptions="FillAndExpand">
+                    <Frame BorderColor="Gray"
+                           Padding="10"
+                           CornerRadius="10">
+                        <Label Text="After" >
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label"
+                                             Binding="{Binding PrescriptionModel.IsAfterMealSelected}"
+                                             Value="true">
+                                    <Setter Property="TextColor"
+                                            Value="White" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PrescriptionModel.MealSelectedCommand}"
+                                                  NumberOfTapsRequired="1"
+                                                  CommandParameter="True" />
+                        </Frame.GestureRecognizers>
+                        <Frame.Triggers>
+                            <DataTrigger TargetType="Frame"
+                                         Binding="{Binding PrescriptionModel.IsAfterMealSelected}"
+                                         Value="true">
+                                <Setter Property="BackgroundColor"
+                                        Value="Green" />
+                            </DataTrigger>
+                        </Frame.Triggers>
+                    </Frame>
+                    <Frame BorderColor="Gray"
+                           Padding="10"
+                           CornerRadius="10">
+                        <Label Text="Before" >
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label"
+                                             Binding="{Binding PrescriptionModel.IsAfterMealSelected}"
+                                             Value="false">
+                                    <Setter Property="TextColor"
+                                            Value="White" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PrescriptionModel.MealSelectedCommand}"
+                                                  NumberOfTapsRequired="1"
+                                                  CommandParameter="False" />
+                        </Frame.GestureRecognizers>
+                        <Frame.Triggers>
+                            <DataTrigger TargetType="Frame"
+                                         Binding="{Binding PrescriptionModel.IsAfterMealSelected}"
+                                         Value="false">
+                                <Setter Property="BackgroundColor"
+                                        Value="Green" />
+                            </DataTrigger>
+                        </Frame.Triggers>
+                    </Frame>
+                </StackLayout>
+
+                <Label FontSize="18"
+                       Text="Note" />
+                <Frame BorderColor="Gray"
+                       Padding="5,5,5,0"
+                       CornerRadius="10">
+                    <VerticalStackLayout>
+                        <Editor Placeholder="Note"
+                                Text="{Binding PrescriptionModel.Note}"
+                                HorizontalOptions="FillAndExpand" />
+                    </VerticalStackLayout>
+                </Frame>
+
+            </StackLayout>
+        </ScrollView>
+        <StackLayout Grid.Row="1"
+                     Spacing="10"
+                     HorizontalOptions="FillAndExpand"
+                     Orientation="Horizontal">
+            <Frame BorderColor="Green"
+                   CornerRadius="20"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="CenterAndExpand"
+                   Padding="4">
+                <Button Text="Cancel"
+                        TextColor="Green"
+                        BackgroundColor="White"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        FontAttributes="Bold"
+                        Command="{Binding CancelCommand}"/>
+            </Frame>
+
+            <Grid Margin="0"
+                  HorizontalOptions="FillAndExpand">
+                <Frame BorderColor="Green"
+                       BackgroundColor="Green"
+                       CornerRadius="20"
+                       VerticalOptions="CenterAndExpand"
+                       Padding="4">
+                    <Frame.Triggers>
+                        <DataTrigger TargetType="Frame"
+                                     Binding="{Binding SavePrescriptionCommand.IsRunning}" Value="true">
+                            <Setter Property="BorderColor"
+                                    Value="Grey" />
+                        </DataTrigger>
+                    </Frame.Triggers>
+                    
+                    <Button Text="Save"
+                            BackgroundColor="Green"
+                            HorizontalOptions="CenterAndExpand"
+                            VerticalOptions="Center"
+                            FontAttributes="Bold"
+                            Command="{Binding SavePrescriptionCommand}"/>
+                </Frame>
+
+                <ActivityIndicator HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   Color="White"
+                                   IsVisible="{Binding SavePrescriptionCommand.IsRunning}"
+                                   IsRunning="{Binding SavePrescriptionCommand.IsRunning}"/>
+
+            </Grid>
+
+
+        </StackLayout>
+    </Grid>
+</ContentPage>
